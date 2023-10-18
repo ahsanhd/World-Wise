@@ -11,11 +11,16 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route index element={<Homepage />} />
           <Route path="pricing" element={<Pricing />} />
           <Route path="product" element={<Product />} />
           <Route path="login" element={<Login />} />
-          <Route path="app" element={<AppLayout />} />
+          <Route path="app" element={<AppLayout />}>
+            <Route index element={<p>List OF cities</p>} />
+            <Route path="cities" element={<p>List Of Cities</p>} />
+            <Route path="countries" element={<p>List Of COUNTRIES</p>} />
+            <Route path="form" element={<p>FORM</p>} />
+          </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
