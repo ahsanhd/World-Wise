@@ -1,5 +1,6 @@
 import CityItem from "./CityItem";
 import styles from "./CityList.module.css";
+import PropTypes from "prop-types";
 function CityList({ cities, isLoading }) {
   return (
     <ul className={styles.cityList}>
@@ -11,3 +12,8 @@ function CityList({ cities, isLoading }) {
 }
 
 export default CityList;
+
+CityList.propTypes = {
+  cities: PropTypes.array,
+  isLoading: PropTypes.bool,
+};
