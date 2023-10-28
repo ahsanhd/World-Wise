@@ -37,8 +37,15 @@ function CitiesProvider({ children }) {
   );
 }
 
-export { CitiesProvider };
+function useCities() {
+  const context = useContext(CitiesContext);
+  if (context === undefined)
+    throw new Error("Cities Context Was Used OutSide The Cites Provider");
+  return context;
+}
 
 CitiesProvider.propTypes = {
   children: PropTypes.any,
 };
+
+export { CitiesProvider, useCities };
