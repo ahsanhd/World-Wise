@@ -1,23 +1,33 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./Map.module.css";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { useEffect, useState } from "react";
 import { useCities } from "../contexts/CitiesContext";
-function Map() {
-  const navigate = useNavigate();
+import PropTypes from "prop-types";
 
-  const [mapPosition, setMapPosition] = useState([40, 60]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const lat = searchParams.get("lat");
-  const lng = searchParams.get("lng");
+function Map() {
+  // const navigate = useNavigate();
+
+  const [mapPosition, setMapPosition] = useState([60, 0]);
+
+  const [searchParams] = useSearchParams();
+  const mapLat = searchParams.get("lat");
+  const mapLng = searchParams.get("lng");
 
   const { cities } = useCities();
+
+  useEffect(
+    function () {
+      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+    },
+    [mapLat, mapLng]
+  );
 
   return (
     <div className={styles.mapContainer}>
       <MapContainer
         center={mapPosition}
-        zoom={13}
+        zoom={6}
         scrollWheelZoom={true}
         className={styles.map}
       >
@@ -33,6 +43,7 @@ function Map() {
             <Popup>
               <span>{city.emoji}</span> <span>{city.cityName}</span>
             </Popup>
+            <SetCenter position={mapPosition} />
           </Marker>
         ))}
       </MapContainer>
@@ -40,4 +51,15 @@ function Map() {
   );
 }
 
+function SetCenter({ position }) {
+  const map = useMap();
+  map.setView(position);
+  console.log(position);
+  return null;
+}
+
 export default Map;
+
+SetCenter.propTypes = {
+  position: PropTypes.array,
+};
