@@ -3,6 +3,7 @@ import styles from "./Login.module.css";
 import PageNav from "../components/PageNav";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function Login() {
   // PRE-FILL FOR DEV PURPOSES
@@ -13,13 +14,13 @@ export default function Login() {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
 
-  async function handleLogin(e) {
+  function handleLogin(e) {
     e.preventDefault();
-    await login(email, password);
+    if (email && password) login(email, password);
   }
   useEffect(
     function () {
-      if (isAuth === true) navigate("/app");
+      if (isAuth) navigate("/app", { replace: true });
     },
     [isAuth, navigate]
   );
@@ -49,7 +50,7 @@ export default function Login() {
         </div>
 
         <div>
-          <button>Login</button>
+          <Button type="primary">Login</Button>
         </div>
       </form>
     </main>

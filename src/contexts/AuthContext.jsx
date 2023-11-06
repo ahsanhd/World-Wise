@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const AuthContext = createContext();
 
 const initialState = {
-  user: {},
+  user: null,
   isAuth: false,
 };
 
@@ -18,9 +18,9 @@ const FAKE_USER = {
 function reducer(state, action) {
   switch (action.type) {
     case "login":
-      return { ...state, user: action.payload, isAuth: true };
+      return { ...state, isAuth: true, user: action.payload };
     case "logout":
-      return { ...initialState };
+      return { ...state, user: null, isAuth: false };
     default:
       throw new Error("Unexpected error occured");
   }
