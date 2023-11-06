@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 import PropTypes from "prop-types";
 
 const BASE_URL = "http://localhost:9000";
@@ -71,12 +77,12 @@ function CitiesProvider({ children }) {
     fetchCities();
   }, []);
 
-  async function getCity(id) {
+  const getCity = useCallback(async function getCity(id) {
     dispatch({ type: "loaded" });
     try {
       const res = await fetch(`${BASE_URL}/cities/${id}`);
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       dispatch({ type: "city/loaded", payload: data });
     } catch {
       dispatch({
@@ -84,7 +90,7 @@ function CitiesProvider({ children }) {
         payload: "There was some error fetching your list of countries",
       });
     }
-  }
+  }, []);
 
   async function createCity(newCity) {
     dispatch({ type: "loaded" });
